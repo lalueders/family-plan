@@ -1,10 +1,7 @@
+import ShoppingList from './components/ShoppingList';
 
 function App() {
-  return (
-    <div>
-      family plan
-    </div>
-  );
+  return <ShoppingList />;
 }
 
 export default App;
