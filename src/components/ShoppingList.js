@@ -24,7 +24,13 @@ export default function ShoppingList() {
 
   function handleOnClick(event) {
     event.preventDefault();
-    console.log(event.currentTarget.name);
+    onDelete(event);
+  }
+
+  function onDelete(event) {
+    const index = shoppingList.findIndex(item => item === event.currentTarget.value);
+    shoppingList.splice(index, 1);
+    setShoppingList([...shoppingList]);
   }
 
   return (
@@ -35,7 +41,7 @@ export default function ShoppingList() {
           <Item>
             <input type="checkbox" id={item} name={item} value={item} />
             <label htmlFor={item}>{item}</label>
-            <button name={item} onClick={handleOnClick}>
+            <button value={item} onClick={handleOnClick}>
               <img src={clear} alt="Delete item from shopping list"></img>
             </button>
           </Item>
