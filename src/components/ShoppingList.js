@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
+import ShoppingListItem from './ShoppingListItem';
 import add from '../assets/add.svg';
 import clear from '../assets/clear.svg';
 
@@ -17,14 +18,9 @@ export default function ShoppingList() {
     setInput('');
   }
 
-  function handleClear(event) {
+  function handleClick(event) {
     event.preventDefault();
     setInput('');
-  }
-
-  function handleOnClick(event) {
-    event.preventDefault();
-    onDelete(event);
   }
 
   function onDelete(event) {
@@ -37,15 +33,7 @@ export default function ShoppingList() {
     <Container>
       <h2>My Shopping List</h2>
       {shoppingList.map((item, index) => (
-        <List key={index}>
-          <Item>
-            <input type="checkbox" id={item} name={item} value={item} />
-            <label htmlFor={item}>{item}</label>
-            <button value={item} onClick={handleOnClick}>
-              <img src={clear} alt="Delete item from shopping list"></img>
-            </button>
-          </Item>
-        </List>
+        <ShoppingListItem item={item} key={index} onDelete={onDelete} />
       ))}
       <Add>
         <button type="submit" onClick={handleSubmit}>
@@ -61,7 +49,7 @@ export default function ShoppingList() {
           value={input}
           onChange={handleOnChange}
         />
-        <button onClick={handleClear}>
+        <button onClick={handleClick}>
           <img src={clear} alt="Clear Input"></img>
         </button>
       </Add>
@@ -74,31 +62,6 @@ const Container = styled.div`
   padding: 1rem;
   display: grid;
   gap: 1rem;
-`;
-
-const List = styled.form`
-  input[type='checkbox'] {
-    height: 1.5rem;
-  }
-`;
-
-const Item = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 1rem auto 1rem;
-  gap: 1rem;
-  line-height: 1;
-
-  button {
-    background-color: red;
-    display: grid;
-    padding: 0;
-    border: none;
-    background: inherit;
-  }
-
-  img {
-  }
 `;
 
 const Add = styled.form`
@@ -124,8 +87,5 @@ const Add = styled.form`
     padding: 0;
     border: none;
     background: inherit;
-  }
-
-  img {
   }
 `;
