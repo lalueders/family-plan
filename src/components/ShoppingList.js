@@ -1,30 +1,28 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
 import ShoppingListItem from './ShoppingListItem';
+import NewShoppingListItem from './NewShoppingListItem';
 import add from '../assets/add.svg';
 import clear from '../assets/clear.svg';
 
 export default function ShoppingList() {
-  const [input, setInput] = useState('');
   const [shoppingList, setShoppingList] = useState([]);
 
-  function handleOnChange(event) {
-    setInput(event.target.value);
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
+  function onSubmit(input) {
     setShoppingList([...shoppingList, input]);
-    setInput('');
   }
 
-  function handleClick(event) {
-    event.preventDefault();
-    setInput('');
+  function onEdit(input, event) {
+    const index = shoppingList.indexOf(event.currentTarget.value);
+    if (index !== -1) {
+      shoppingList[index] = input;
+    }
+
+    setShoppingList([...shoppingList]);
   }
 
   function onDelete(event) {
-    const index = shoppingList.findIndex(item => item === event.currentTarget.value);
+    const index = shoppingList.indexOf(event.currentTarget.value);
     shoppingList.splice(index, 1);
     setShoppingList([...shoppingList]);
   }
@@ -33,26 +31,9 @@ export default function ShoppingList() {
     <Container>
       <h2>My Shopping List</h2>
       {shoppingList.map((item, index) => (
-        <ShoppingListItem item={item} key={index} onDelete={onDelete} />
+        <ShoppingListItem item={item} key={index} onDelete={onDelete} onEdit={onEdit} />
       ))}
-      <Add>
-        <button type="submit" onClick={handleSubmit}>
-          <img src={add} alt="Add new item to shopping list"></img>
-        </button>
-        <input
-          type="text"
-          name="Add"
-          id="Add"
-          placeholder="Add item..."
-          aria-label="Add new item to shopping list"
-          autoFocus
-          value={input}
-          onChange={handleOnChange}
-        />
-        <button onClick={handleClick}>
-          <img src={clear} alt="Clear Input"></img>
-        </button>
-      </Add>
+      <NewShoppingListItem onSubmit={onSubmit} />
     </Container>
   );
 }
