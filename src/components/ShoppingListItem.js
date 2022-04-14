@@ -3,47 +3,43 @@ import styled from 'styled-components/macro';
 import add from '../assets/add.svg';
 import clear from '../assets/clear.svg';
 
-export default function ShoppingListItem({ item, onDelete, onEdit }) {
-  const [active, setActive] = useState(true);
+export default function ShoppingListItem({ id, item, onDelete, onEdit }) {
+  const [isSelected, setIsSelected] = useState(false);
   const [input, setInput] = useState(item);
-
-  function handleClickToClear(event) {
-    event.preventDefault();
-    setInput('');
-  }
-
-  function handleClickOnDelete(event) {
-    event.preventDefault();
-    onDelete(event);
-  }
-
-  function handleClickOnEdit() {
-    setActive(!active);
-  }
 
   function handleOnChange(event) {
     setInput(event.target.value);
   }
 
+  function handleOnClickDelete(event) {
+    onDelete(event);
+  }
+
+  function handleOnClickEdit() {
+    setIsSelected(!isSelected);
+  }
+
   function handleSubmitEdit(event) {
     event.preventDefault();
-    onEdit(input, event);
-    setActive(!active);
+    onEdit(event, input);
+    setIsSelected(!isSelected);
   }
 
   return (
     <>
-      {active ? (
+      {!isSelected ? (
         <Form>
           <input type="checkbox" id={item} name={item} />
-          <label onClick={handleClickOnEdit}>{item}</label>
-          <button value={item} onClick={handleClickOnDelete}>
-            <img src={clear} alt="Delete item from shopping list"></img>
-          </button>
+          <label id={id} onClick={handleOnClickEdit}>
+            {item}
+          </label>
+          {/* <button id={id} onClick={handleOnClickDelete}>
+            <img src={clear} alt="Clear Input"></img>
+          </button> */}
         </Form>
       ) : (
         <Edit>
-          <button type="submit" value={item} onClick={handleSubmitEdit}>
+          <button type="submit" id={id} onClick={handleSubmitEdit}>
             <img src={add} alt="Add new item to shopping list"></img>
           </button>
           <input
@@ -56,7 +52,7 @@ export default function ShoppingListItem({ item, onDelete, onEdit }) {
             value={input}
             onChange={handleOnChange}
           />
-          <button onClick={handleClickToClear}>
+          <button id={id} onClick={handleOnClickDelete}>
             <img src={clear} alt="Clear Input"></img>
           </button>
         </Edit>
@@ -65,16 +61,68 @@ export default function ShoppingListItem({ item, onDelete, onEdit }) {
   );
 }
 
+// const Form = styled.form`
+//   user-select: none;
+//   display: grid;
+//   align-items: center;
+//   grid-template-columns: auto auto auto;
+//   gap: 1rem;
+//   line-height: 1;
+
+//   button {
+//     display: grid;
+//     padding: 0;
+//     border: none;
+//     background: inherit;
+//   }
+// `;
+
+// const Edit = styled.form`
+//   display: grid;
+//   align-items: center;
+//   grid-template-columns: auto 1fr auto;
+//   justify-content: space-between;
+//   gap: 1rem;
+//   border: none;
+
+//   input {
+//     padding: 0;
+//     border: none;
+//     font-size: inherit;
+//   }
+
+//   input:focus {
+//     outline: none;
+//   }
+
+//   button {
+//     background-color: red;
+//     display: grid;
+//     padding: 0;
+//     border: none;
+//     background: inherit;
+//   }
+// `;
+
 const Form = styled.form`
-  user-select: none;
   display: grid;
+  grid-template-columns: 14px auto;
   align-items: center;
-  grid-template-columns: 1rem auto 1rem;
   gap: 1rem;
-  line-height: 1;
+
+  label {
+    min-width: 100%;
+    padding: 0;
+    border: none;
+    font-size: inherit;
+    justify-self: stretch;
+  }
+
+  input:focus {
+    outline: none;
+  }
 
   button {
-    background-color: red;
     display: grid;
     padding: 0;
     border: none;
@@ -84,15 +132,16 @@ const Form = styled.form`
 
 const Edit = styled.form`
   display: grid;
+  grid-template-columns: 14px auto 14px;
   align-items: center;
-  grid-template-columns: 1rem auto 1rem;
   gap: 1rem;
-  border: none;
 
   input {
+    min-width: 100%;
     padding: 0;
     border: none;
     font-size: inherit;
+    justify-self: stretch;
   }
 
   input:focus {
@@ -100,7 +149,6 @@ const Edit = styled.form`
   }
 
   button {
-    background-color: red;
     display: grid;
     padding: 0;
     border: none;

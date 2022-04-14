@@ -3,27 +3,27 @@ import styled from 'styled-components/macro';
 import add from '../assets/add.svg';
 import clear from '../assets/clear.svg';
 
-export default function NewShoppingListItem({ onSubmit }) {
+export default function NewShoppingListItem({ onCreate }) {
   const [input, setInput] = useState('');
 
   function handleOnChange(event) {
     setInput(event.target.value);
   }
 
-  function handleClickToClear(event) {
+  function handleOnClickClear(event) {
     event.preventDefault();
     setInput('');
   }
 
-  function handleClickToAdd(event) {
+  function handleSubmitCreate(event) {
     event.preventDefault();
-    onSubmit(input);
+    onCreate(input);
     setInput('');
   }
 
   return (
-    <Add>
-      <button type="submit" onClick={handleClickToAdd}>
+    <Create>
+      <button type="submit" onClick={handleSubmitCreate}>
         <img src={add} alt="Add new item to shopping list"></img>
       </button>
       <input
@@ -36,24 +36,25 @@ export default function NewShoppingListItem({ onSubmit }) {
         value={input}
         onChange={handleOnChange}
       />
-      <button onClick={handleClickToClear}>
+      <button onClick={handleOnClickClear}>
         <img src={clear} alt="Clear Input"></img>
       </button>
-    </Add>
+    </Create>
   );
 }
 
-const Add = styled.form`
+const Create = styled.form`
   display: grid;
+  grid-template-columns: 14px auto 14px;
   align-items: center;
-  grid-template-columns: 1rem auto 1rem;
   gap: 1rem;
-  border: none;
 
   input {
+    min-width: 100%;
     padding: 0;
     border: none;
     font-size: inherit;
+    justify-self: stretch;
   }
 
   input:focus {
@@ -61,7 +62,6 @@ const Add = styled.form`
   }
 
   button {
-    background-color: red;
     display: grid;
     padding: 0;
     border: none;

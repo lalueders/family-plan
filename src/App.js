@@ -1,11 +1,7 @@
 import ShoppingList from './components/ShoppingList';
 
 function App() {
-  return (
-    <main>
-      <ShoppingList />
-    </main>
-  );
+  return <ShoppingList />;
 }
 
 export default App;

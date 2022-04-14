@@ -14,10 +14,12 @@ export default createGlobalStyle`
   }
 
   body {
+    margin: 1rem;
     background-color: var(--white);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 1rem;
-    line-height: 1.2;
+    font-size: 1.3rem;
+    line-height: 1;
+
   }
   
   .sr-only{
