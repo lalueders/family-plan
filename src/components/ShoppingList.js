@@ -6,6 +6,7 @@ import NewShoppingListItem from './NewShoppingListItem';
 
 export default function ShoppingList() {
   const [shoppingList, setShoppingList] = useState([]);
+  const [isSelected, setIsSelected] = useState('');
 
   function onCreate(input) {
     const newItem = { id: nanoid(), name: input, active: false };
@@ -16,6 +17,11 @@ export default function ShoppingList() {
     const index = shoppingList.findIndex(item => item.id === event.currentTarget.id);
     shoppingList[index] = { id: event.currentTarget.id, name: input, active: false };
     setShoppingList([...shoppingList]);
+    setIsSelected('');
+  }
+
+  function onSelect(event) {
+    setIsSelected(event.currentTarget.id);
   }
 
   function onDelete(event) {
@@ -32,11 +38,13 @@ export default function ShoppingList() {
           key={item.id}
           id={item.id}
           item={item.name}
+          isSelected={isSelected}
           onDelete={onDelete}
           onEdit={onEdit}
+          onSelect={onSelect}
         />
       ))}
-      <NewShoppingListItem onCreate={onCreate} />
+      <NewShoppingListItem onCreate={onCreate} isSelected={isSelected} />
     </Container>
   );
 }
