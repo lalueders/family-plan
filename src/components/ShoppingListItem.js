@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
-import add from '../assets/add.svg';
 import clear from '../assets/clear.svg';
 
 export default function ShoppingListItem({ id, item, isSelected, onSelect, onDelete, onEdit }) {
@@ -33,19 +32,19 @@ export default function ShoppingListItem({ id, item, isSelected, onSelect, onDel
           </label>
         </Form>
       ) : (
-        <Edit>
-          <button type="submit" id={id} onClick={handleSubmitEdit}>
-            <img src={add} alt="Add item to shopping list"></img>
-          </button>
+        <Edit submit>
+          <input type="checkbox" id={item} name={item} />
+          <input type="submit" id={id} onClick={handleSubmitEdit} hidden />
           <input
             type="text"
             name="add"
-            id="add"
+            id={id}
             placeholder="Add item..."
             aria-label="Add item to shopping list"
             autoFocus
             value={input}
             onChange={handleOnChange}
+            onBlur={handleSubmitEdit}
           />
           <button id={id} onClick={handleOnClickDelete}>
             <img src={clear} alt="Clear Input"></img>
