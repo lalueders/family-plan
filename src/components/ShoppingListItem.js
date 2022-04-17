@@ -2,22 +2,31 @@ import { useState } from 'react';
 import styled from 'styled-components/macro';
 import clear from '../assets/clear.svg';
 
-export default function ShoppingListItem({ id, item, isSelected, onSelect, onDelete, onEdit }) {
+export default function ShoppingListItem({
+  id,
+  item,
+  isSelected,
+  onSelect,
+  onDelete,
+  onEdit,
+  onChange,
+}) {
   const [input, setInput] = useState(item);
 
   function handleOnChange(event) {
     setInput(event.target.value);
+    onChange(event);
   }
 
-  function handleOnClickDelete(event) {
+  function handleOnDelete(event) {
     onDelete(event);
   }
 
-  function handleOnClickEdit(event) {
+  function handleOnSelect(event) {
     onSelect(event);
   }
 
-  function handleSubmitEdit(event) {
+  function handleOnEdit(event) {
     event.preventDefault();
     onEdit(event, input);
   }
@@ -26,27 +35,26 @@ export default function ShoppingListItem({ id, item, isSelected, onSelect, onDel
     <>
       {isSelected !== id ? (
         <Form>
-          <input type="checkbox" id={item} name={item} />
-          <label id={id} onClick={handleOnClickEdit}>
+          <input type="checkbox" id={item} name={id} value={item} aria-label={item} />
+          <div id={id} onClick={handleOnSelect}>
             {item}
-          </label>
+          </div>
         </Form>
       ) : (
-        <Edit submit>
+        <Edit>
           <input type="checkbox" id={item} name={item} />
-          <input type="submit" id={id} onClick={handleSubmitEdit} hidden />
+          <input type="submit" id={id} onClick={handleOnEdit} hidden />
           <input
             type="text"
-            name="add"
+            name={item}
             id={id}
             placeholder="Add item..."
             aria-label="Add item to shopping list"
             autoFocus
             value={input}
             onChange={handleOnChange}
-            onBlur={handleSubmitEdit}
           />
-          <button id={id} onClick={handleOnClickDelete}>
+          <button id={id} onClick={handleOnDelete}>
             <img src={clear} alt="Clear Input"></img>
           </button>
         </Edit>
@@ -61,16 +69,16 @@ const Form = styled.form`
   align-items: center;
   gap: 1rem;
 
+  div {
+    height: 1.3rem;
+    width: 100%;
+  }
+
   label {
-    min-width: 100%;
     padding: 0;
     border: none;
     font-size: inherit;
     justify-self: stretch;
-  }
-
-  input:focus {
-    outline: none;
   }
 
   button {
@@ -88,7 +96,6 @@ const Edit = styled.form`
   gap: 1rem;
 
   input {
-    min-width: 100%;
     padding: 0;
     border: none;
     font-size: inherit;

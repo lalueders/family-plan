@@ -23,26 +23,28 @@ export default function NewShoppingListItem({ onCreate, isSelected }) {
 
   return (
     <>
-      {/* {isSelected && ( */}
-      <Create>
-        <button type="submit" onClick={handleSubmitCreate}>
-          <img src={add} alt="Add new item to shopping list"></img>
-        </button>
-        <input
-          type="text"
-          name="add"
-          id="add"
-          placeholder="Add item..."
-          aria-label="Add new item to shopping list"
-          autoFocus
-          value={input}
-          onChange={handleOnChange}
-        />
-        <button onClick={handleOnClickClear}>
-          <img src={clear} alt="Clear Input"></img>
-        </button>
-      </Create>
-      {/* )} */}
+      {!isSelected && (
+        <Create>
+          <button type="submit" onClick={handleSubmitCreate}>
+            <img src={add} alt="Add new item to shopping list"></img>
+          </button>
+          <input
+            type="text"
+            name="add"
+            id="add"
+            placeholder="Add item..."
+            aria-label="Add new item to shopping list"
+            autoFocus
+            value={input}
+            onChange={handleOnChange}
+          />
+          {input.length > 0 && (
+            <button onClick={handleOnClickClear}>
+              <img src={clear} alt="Clear Input"></img>
+            </button>
+          )}
+        </Create>
+      )}
     </>
   );
 }
