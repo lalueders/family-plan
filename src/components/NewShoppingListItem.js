@@ -3,14 +3,14 @@ import styled from 'styled-components/macro';
 import add from '../assets/add.svg';
 import clear from '../assets/clear.svg';
 
-export default function NewShoppingListItem({ onCreate, isSelected }) {
+export default function NewShoppingListItem({ onCreate, isSelected, inputRef }) {
   const [input, setInput] = useState('');
 
   function handleOnChange(event) {
     setInput(event.target.value);
   }
 
-  function handleOnClickClear(event) {
+  function handleOnClearInput(event) {
     event.preventDefault();
     setInput('');
   }
@@ -37,9 +37,10 @@ export default function NewShoppingListItem({ onCreate, isSelected }) {
             autoFocus
             value={input}
             onChange={handleOnChange}
+            ref={inputRef}
           />
           {input.length > 0 && (
-            <button onClick={handleOnClickClear}>
+            <button onClick={handleOnClearInput}>
               <img src={clear} alt="Clear Input"></img>
             </button>
           )}

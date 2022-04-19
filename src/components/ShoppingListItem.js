@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
 import clear from '../assets/clear.svg';
+import tick from '../assets/tick.svg';
 
 export default function ShoppingListItem({
   id,
@@ -10,6 +11,7 @@ export default function ShoppingListItem({
   onDelete,
   onEdit,
   onChange,
+  onCheck,
 }) {
   const [input, setInput] = useState(item);
 
@@ -31,18 +33,23 @@ export default function ShoppingListItem({
     onEdit(event, input);
   }
 
+  function handleOnCheck(event) {
+    event.preventDefault();
+    onCheck(event);
+  }
+
   return (
     <>
       {isSelected !== id ? (
-        <Form>
-          <input type="checkbox" id={item} name={id} value={item} aria-label={item} />
+        <Item>
+          <button id={id} onClick={handleOnCheck}></button>
           <div id={id} onClick={handleOnSelect}>
             {item}
           </div>
-        </Form>
+        </Item>
       ) : (
         <Edit>
-          <input type="checkbox" id={item} name={item} />
+          <Checkbox id={id} onClick={handleOnCheck}></Checkbox>
           <input type="submit" id={id} onClick={handleOnEdit} hidden />
           <input
             type="text"
@@ -62,6 +69,46 @@ export default function ShoppingListItem({
     </>
   );
 }
+
+const Checkbox = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  display: grid;
+  padding: 0;
+  background: inherit;
+  border-radius: 4px;
+
+  img {
+    padding: 1px;
+  }
+`;
+
+const Item = styled.div`
+  display: grid;
+  grid-template-columns: 14px auto;
+  align-items: end;
+  gap: 1rem;
+
+  div {
+    height: 1.3rem;
+    width: 100%;
+  }
+
+  button {
+    width: 20px;
+    height: 20px;
+    border: 2px solid;
+    display: grid;
+    padding: 0;
+    background: inherit;
+    border-radius: 4px;
+
+    img {
+      padding: 1px;
+    }
+  }
+`;
 
 const Form = styled.form`
   display: grid;
