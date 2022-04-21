@@ -8,7 +8,7 @@ export default createGlobalStyle`
   }
 
   :root {
-    --white: #ffffff;
+    --white: #FCFCFC;
     --grey: #F2F0F0;
     --black: #000000;
   }
@@ -22,6 +22,11 @@ export default createGlobalStyle`
 
   }
   
+  input {
+    // Avoid mobil zoom when input is focused
+    font-size: inherit;
+  }
+
   .sr-only{
     position: absolute;
     width: 1px;

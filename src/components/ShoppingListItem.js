@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
 import clear from '../assets/clear.svg';
-import tick from '../assets/tick.svg';
 
 export default function ShoppingListItem({
   id,
@@ -42,15 +41,15 @@ export default function ShoppingListItem({
     <>
       {isSelected !== id ? (
         <Item>
-          <button id={id} onClick={handleOnCheck}></button>
+          <Checkbox id={id} onClick={handleOnCheck}></Checkbox>
           <div id={id} onClick={handleOnSelect}>
             {item}
           </div>
         </Item>
       ) : (
         <Edit>
-          <Checkbox id={id} onClick={handleOnCheck}></Checkbox>
           <input type="submit" id={id} onClick={handleOnEdit} hidden />
+          <Checkbox id={id} onClick={handleOnCheck}></Checkbox>
           <input
             type="text"
             name={item}
@@ -61,102 +60,70 @@ export default function ShoppingListItem({
             value={input}
             onChange={handleOnChange}
           />
-          <button id={id} onClick={handleOnDelete}>
+          <Delete id={id} onClick={handleOnDelete}>
             <img src={clear} alt="Clear Input"></img>
-          </button>
+          </Delete>
         </Edit>
       )}
     </>
   );
 }
 
-const Checkbox = styled.div`
-  width: 20px;
-  height: 20px;
-  border: 2px solid;
-  display: grid;
-  padding: 0;
-  background: inherit;
-  border-radius: 4px;
-
-  img {
-    padding: 1px;
-  }
-`;
-
 const Item = styled.div`
   display: grid;
-  grid-template-columns: 14px auto;
-  align-items: end;
-  gap: 1rem;
-
-  div {
-    height: 1.3rem;
-    width: 100%;
-  }
-
-  button {
-    width: 20px;
-    height: 20px;
-    border: 2px solid;
-    display: grid;
-    padding: 0;
-    background: inherit;
-    border-radius: 4px;
-
-    img {
-      padding: 1px;
-    }
-  }
-`;
-
-const Form = styled.form`
-  display: grid;
-  grid-template-columns: 14px auto;
+  grid-template-columns: 20px auto;
   align-items: center;
   gap: 1rem;
+  color: #1e1e1e;
 
   div {
     height: 1.3rem;
     width: 100%;
-  }
-
-  label {
-    padding: 0;
-    border: none;
-    font-size: inherit;
-    justify-self: stretch;
-  }
-
-  button {
-    display: grid;
-    padding: 0;
-    border: none;
-    background: inherit;
   }
 `;
 
 const Edit = styled.form`
   display: grid;
-  grid-template-columns: 14px auto 14px;
+  grid-template-columns: 20px auto 20px;
   align-items: center;
   gap: 1rem;
 
   input {
+    width: 100%;
     padding: 0;
     border: none;
     font-size: inherit;
-    justify-self: stretch;
+    justify-self: start;
+    color: #1e1e1e;
+    background: inherit;
   }
 
   input:focus {
     outline: none;
   }
+`;
 
-  button {
-    display: grid;
-    padding: 0;
-    border: none;
-    background: inherit;
+const Checkbox = styled.button`
+  width: 20px;
+  height: 20px;
+  border: 2px solid #414649;
+  display: grid;
+  padding: 0;
+  background: inherit;
+  border-radius: 3px;
+`;
+
+const Delete = styled.button`
+  width: 20px;
+  height: 20px;
+  border: none;
+  display: grid;
+  background: inherit;
+  align-items: center;
+  justify-items: center;
+  padding: 3px;
+
+  img {
+    width: 100%;
   }
 `;

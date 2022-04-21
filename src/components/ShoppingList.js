@@ -31,6 +31,7 @@ export default function ShoppingList() {
     itemsToBuy[index] = { id: event.currentTarget.id, item: input };
     setItemsToBuy([...itemsToBuy]);
     setIsSelected('');
+    setFocus();
   }
 
   function onDelete(event) {
@@ -38,12 +39,14 @@ export default function ShoppingList() {
     itemsToBuy.splice(index, 1);
     setItemsToBuy([...itemsToBuy]);
     setIsSelected('');
+    setFocus();
   }
 
   function onCheck(event) {
     const index = itemsToBuy.findIndex(item => item.id === event.currentTarget.id);
     itemsToBuy[index] = { ...itemsToBuy[index], checked: true };
     setItemsBought([itemsToBuy[index], ...itemsBought]);
+    setIsSelected('');
     setFocus();
   }
 
@@ -53,6 +56,7 @@ export default function ShoppingList() {
     const itemsBoughtIndex = itemsBought.findIndex(item => item.id === event.currentTarget.id);
     itemsBought.splice(itemsBoughtIndex, 1);
     setItemsBought([...itemsBought]);
+    setIsSelected('');
     setFocus();
   }
 
@@ -62,7 +66,12 @@ export default function ShoppingList() {
 
   return (
     <Container>
-      <h2>Shopping List</h2>
+      <Heading>
+        <h2>Shopping List</h2>
+        <p>
+          {itemsToBuy.length - itemsBought.length} / {itemsToBuy.length}
+        </p>
+      </Heading>
       {itemsToBuy.map(
         item =>
           !item.checked && (
@@ -79,7 +88,14 @@ export default function ShoppingList() {
             />
           )
       )}
-      <NewShoppingListItem onCreate={onCreate} isSelected={isSelected} inputRef={inputRef} />
+      <NewShoppingListItem
+        onCreate={onCreate}
+        onSelect={onSelect}
+        isSelected={isSelected}
+        inputRef={inputRef}
+      />
+      <Divider />
+      <h3>{itemsBought.length} checked entries</h3>
       {itemsBought.map(item => (
         <CheckedShoppingListItem
           key={item.id}
@@ -92,9 +108,39 @@ export default function ShoppingList() {
   );
 }
 
+const Heading = styled.section`
+  width: 100%;
+  user-select: none;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: #1e1e1e;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #1e1e1e;
+  }
+`;
+
 const Container = styled.div`
   width: 100%;
   user-select: none;
   display: grid;
-  gap: 1rem;
+  gap: 2rem;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #1e1e1e;
+  }
+`;
+
+const Divider = styled.div`
+  border: 1px solid #b4b9bc;
 `;
